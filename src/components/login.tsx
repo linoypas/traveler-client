@@ -9,9 +9,18 @@ function Login() {
 
   const handleSubmit = async (e:any) => {
     e.preventDefault();
-    const response = await axios.post('/auth/login', FormData);
-    console.log('Logging in with:', email, password);
-    navigate('/posts'); // Redirect to dashboard after login (example)
+    try{
+      console.log(FormData)
+      const response = await axios.post('http://localhost:3000/auth/login', FormData);
+      if(response.status == 200) {
+        console.log('Logging in with:', email, password);
+        navigate('/posts');
+      } else {
+        console.log('Invalid credentials. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+    }
   };
 
   return (
@@ -32,7 +41,7 @@ function Login() {
         />
         <button type="submit">Login</button>
       </form>
-      <p>Don't have an account? <a href="/register">Register</a></p>
+      <p>Don't have an account? <button onClick={() => navigate('/register')}>Register here</button></p>
     </div>
   );
 }

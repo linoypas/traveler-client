@@ -1,16 +1,24 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
-    // Handle registration logic here
-    console.log('Registering with:', email, password);
-    navigate('/login'); // Redirect to login page after registration
+    try{
+      const response = await axios.post('/auth/register', { email, password });
+      if(response.status == 200) {
+        console.log('Registering with:', email, password);
+        navigate('/login');
+      } else {
+        console.log('Invalid credentials. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error during register:', error);
+    }
   };
 
   return (
