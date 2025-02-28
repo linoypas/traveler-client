@@ -1,25 +1,37 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+interface LoginResponse {
+  message: string; // Adjust this to match your response structure from the server
+}
+
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e:any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try{
-      console.log(FormData)
-      const response = await axios.post('http://localhost:3000/auth/login', FormData);
-      if(response.status == 200) {
+
+    try {
+      const response = await fetch('http://localhost:3001/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        alert(`Error from server:\n ${errorMessage}`);
+      } else {
         console.log('Logging in with:', email, password);
         navigate('/posts');
-      } else {
-        console.log('Invalid credentials. Please try again.');
       }
-    } catch (error) {
-      console.error('Error during login:', error);
+    } catch (error: any) {
+      console.error('Error during login:', error.message);
+      alert(`Error during register: ${error.message}`);
     }
   };
 
@@ -41,7 +53,9 @@ function Login() {
         />
         <button type="submit">Login</button>
       </form>
-      <p>Don't have an account? <button onClick={() => navigate('/register')}>Register here</button></p>
+      <p>
+        Don't have an account? <button onClick={() => navigate('/register')}>Register here</button>
+      </p>
     </div>
   );
 }

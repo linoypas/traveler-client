@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function Register() {
@@ -9,8 +8,14 @@ function Register() {
   const handleSubmit = async (e:any) => {
     e.preventDefault();
     try{
-      const response = await axios.post('http://localhost:3001/auth/register', { email, password });
-      if(response.status == 200) {
+      const response = await fetch('http://localhost:3001/auth/register',{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      if(response.ok) {
         console.log('Registering with:', email, password);
         navigate('/login');
       } else {
