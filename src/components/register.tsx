@@ -9,7 +9,7 @@ function Register() {
   const handleSubmit = async (e:any) => {
     e.preventDefault();
     try{
-      const response = await axios.post('/auth/register', { email, password });
+      const response = await axios.post('http://localhost:3001/auth/register', { email, password });
       if(response.status == 200) {
         console.log('Registering with:', email, password);
         navigate('/login');
