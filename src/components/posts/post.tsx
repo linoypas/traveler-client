@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+
 interface Comment {
     id: string;
-    author: string;
+    owner: string;
     content: string;
     postId: string;
   }
@@ -10,46 +12,71 @@ interface Comment {
     title: string;  
     owner: String;
     content: string;
-    comments: Comment[];
+    likes: number;
   }
   
 
-const Post = (postId: string) => {
+const Post = () => {
+    const { postId } = useParams<{ postId: string }>();
     const [comment, setComment] = useState('');
+    const [comments, setComments] = useState<Comment[]>([]);
     const [post, setPost] = useState<IPost | null>(null);
     const [loading, setLoading] = useState(true);
+    const [isLiked, setIsLiked] = useState(false);
 
+    const accessToken = localStorage.getItem('accessToken');
     useEffect(() => {
         const fetchPost = async () => {
           try {
-            const response = await fetch(`http://localhost:3001/posts/${postId}`);
-            if (!response.ok) {
+            const postReponse = await fetch(`http://localhost:3001/posts/${postId}`,{
+                method: 'GET',
+                headers: {
+                  'Authorization': `Bearer ${accessToken}`,
+                  'Content-Type': 'application/json',
+                },
+              });
+            
+            if (!postReponse.ok) {
               throw new Error('Failed to fetch post');
             }
-            const data = await response.json();
-            setPost(data);
+            const postData = await postReponse.json();
+            setPost(postData);
+            const commentResponse = await fetch(`http://localhost:3001/comments?postId=${postId}`, {
+                method: "GET",
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!commentResponse.ok) {
+                throw new Error("Failed to fetch comments");
+            }
+            const commentsData= await commentResponse.json();
+            setComments(commentsData);
+
           } catch (error) {
             console.error("Error fetching post ", error);
           } finally {
             setLoading(false);
           }
+
         };
     
         fetchPost();
-      }, [postId]); // Re-fetch when the postId changes
+      }, [postId]); 
     
-      if (loading) return <p>Loading...</p>;
-
     const handleComment = async (e: any) => {
-    e.preventDefault();
+        e.preventDefault();
         try {
             const response = await fetch(`http://localhost:3001/comments/`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    'Authorization': `Bearer ${accessToken}`,
+                    "Content-Type": "application/json" },
                 body: JSON.stringify({ content: comment, postId: postId }),
             });
             if (response.ok) {
-            setComment(""); 
+                setComment(""); 
             } else {
                 console.error("Failed to post comment");
             }
@@ -57,14 +84,40 @@ const Post = (postId: string) => {
                 console.error("Error posting comment", error);
             };
         };
-    if (!post) {
-        return <p>Loading...</p>; 
+    const handleLike = async (e:any) => { 
+        e.preventDefault();
+        let likes = 0;
+        if(post?.likes){
+            likes = isLiked? post?.likes - 1 : post?.likes + 1;
         }
+
+        try {
+            const response = await fetch(`http://localhost:3001/posts/${postId}`, {
+                method: "PUT",
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    "Content-Type": "application/json" },
+                body: JSON.stringify({ likes: likes}),
+            });
+        } catch (error) {
+            console.error("Error updating likes", error);
+        }
+        setIsLiked(!isLiked);
+    }
+
+
+
+    if (!post || loading) {
+        return <p>Loading...</p>; 
+    }
     return (
     <div>
         <h3>{post.title}</h3>
         <p><strong>By: {post.owner || 'Unknown'}</strong></p> 
-        <p>{post.content}</p>
+        <img src={post.content} alt="Post content" style={{ width: '100%', height: 'auto' }} />
+        <button onClick={handleLike}>
+            {isLiked ? 'Unlike' : 'Like'} ({post.likes} Likes)
+      </button>
         <form onSubmit={handleComment}>
         <textarea
             value={comment}
@@ -75,15 +128,15 @@ const Post = (postId: string) => {
         </form>
         <div>
             <h4>Comments:</h4>
-            {post.comments.length > 0 ? (
-            post.comments.map((comment, idx) => (
-                <div key={idx}>
-                <strong>{comment.author}</strong>: {comment.content}
-                </div>
-            ))
-            ) : (
-                <p>No comments yet</p>
-            )}
+            {comments.length > 0 ? (
+                    comments.map((comment, idx) => (
+                        <div key={idx}>
+                            <strong>{comment.owner}</strong>: {comment.content}
+                        </div>
+                    ))
+                ) : (
+                    <p>No comments yet</p>
+                )}
         </div>
     </div>
     );
