@@ -1,21 +1,29 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-
 function Post() {
+  const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [photo, setPhoto] = useState('');
   const navigate = useNavigate();
+  const accessToken = localStorage.getItem('accessToken');
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:3001/posts",
-        {
-          title: "My Post", 
-          content: content });
+      const response = await fetch('http://localhost:3001/posts', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: title,
+          content: content
+          //photo: photo
+        }),
+      });
+
       if (response.status === 201) {
         console.log('Post created');
         navigate('/posts');
@@ -29,8 +37,14 @@ function Post() {
 
   return (
     <div>
-      <h2>{ 'Create Post'}</h2>
+      <h2>{'Create Post'}</h2>
       <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Post Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
         <textarea
           placeholder="Post Content"
           value={content}
