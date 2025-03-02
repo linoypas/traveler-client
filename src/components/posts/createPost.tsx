@@ -7,7 +7,8 @@ function Post() {
   const [photo, setPhoto] = useState('');
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
-
+  console.log('Access Token:', accessToken);
+  
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {

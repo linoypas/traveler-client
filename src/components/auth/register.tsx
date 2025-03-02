@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../../styles/Login.css'; 
+import logo from '../../assets/logo.png'; 
 
 function Register() {
   const [email, setEmail] = useState('');
@@ -27,26 +29,36 @@ function Register() {
   };
 
   return (
-    <div>
+<div className="login-container">
+      <div className="logo-container">
+      <img src={logo} alt="Logo" className="logo" />
+      </div>
+      
       <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
+      
+      <form onSubmit={handleSubmit} className="login-form">
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          className="input-field"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className="input-field"
         />
-        <button type="submit">Register</button>
+        <button type="submit" className="submit-button">Login</button>
       </form>
-      <p>Already have an account? <a href="/login">Login</a></p>
+      
+      <p className="register-link">
+        Already have an account?<button onClick={() => navigate('/login')} className="register-button">Register here</button>
+      </p>
     </div>
   );
-}
+};
 
 export default Register;

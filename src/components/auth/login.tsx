@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-interface LoginResponse {
-  message: string; // Adjust this to match your response structure from the server
-}
+import '../../styles/Login.css'; 
+import logo from '../../assets/logo.png'; 
 
 function Login() {
   const [email, setEmail] = useState<string>('');
@@ -27,6 +25,11 @@ function Login() {
         alert(`Error from server:\n ${errorMessage}`);
       } else {
         console.log('Logging in with:', email, password);
+        const data = await response.json();
+        if(data){
+          localStorage.setItem('accessToken', data.accessToken);
+          localStorage.setItem('id',data.id);
+        }
         navigate('/posts');
       }
     } catch (error: any) {
@@ -36,28 +39,36 @@ function Login() {
   };
 
   return (
-    <div>
+    <div className="login-container">
+      <div className="logo-container">
+      <img src={logo} alt="Logo" className="logo" />
+      </div>
+      
       <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
+      
+      <form onSubmit={handleSubmit} className="login-form">
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          className="input-field"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className="input-field"
         />
-        <button type="submit">Login</button>
+        <button type="submit" className="submit-button">Login</button>
       </form>
-      <p>
-        Don't have an account? <button onClick={() => navigate('/register')}>Register here</button>
+      
+      <p className="register-link">
+        Don't have an account? <button onClick={() => navigate('/register')} className="register-button">Register here</button>
       </p>
     </div>
   );
-}
+};
 
 export default Login;
