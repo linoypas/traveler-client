@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-interface Comment {
+interface IComment {
     id: string;
     owner: string;
     content: string;
@@ -12,7 +12,7 @@ interface Comment {
 const Comments = () => {
     const { postId } = useParams<{ postId: string }>();
     const [comment, setComment] = useState('');
-    const [comments, setComments] = useState<Comment[]>([]);
+    const [comments, setComments] = useState<IComment[]>([]);
     const [loading, setLoading] = useState(true);
 
     const userId = localStorage.getItem('id'); 

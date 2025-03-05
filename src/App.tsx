@@ -6,6 +6,7 @@ import CreatePost from './components/posts/createPost';
 import Post from './components/posts/post';
 import Header from './components/header';
 import Comments from './components/posts/comments';
+import Posts from './components/posts/posts';
 function App() {
   return (
     <Router>
@@ -14,8 +15,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/create-post" element={<CreatePost />} />
-        <Route path="/posts/:postId" element={<Post />} />
+        <Route path="/posts" element={<Posts />} />
         <Route path="/comments/:postId" element={<Comments />} />
+        <Route path="/posts/:postId" element={<Post />} />
+
 
       </Routes>
     </Router>

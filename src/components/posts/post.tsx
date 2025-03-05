@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-interface Comment {
-    id: string;
-    owner: string;
-    content: string;
-    postId: string;
-  }
   interface IPost {
     id: string;
     title: string;  
@@ -14,11 +8,9 @@ interface Comment {
     content: string;
     likes: string [];
   }
-  
 
 const Post = () => {
-    const { postId } = useParams<{ postId: string }>();
-    const [comment, setComment] = useState('');
+    const {postId} = useParams<{ postId: string }>();
     const [comments, setComments] = useState<Comment[]>([]);
     const [post, setPost] = useState<IPost | null>(null);
     const [loading, setLoading] = useState(true);
@@ -71,25 +63,6 @@ const Post = () => {
         fetchPost();
       }, [postId]); 
     
-    const handleComment = async (e: any) => {
-        e.preventDefault();
-        try {
-            const response = await fetch(`http://localhost:3001/comments/`, {
-                method: "POST",
-                headers: { 
-                    'Authorization': `Bearer ${accessToken}`,
-                    "Content-Type": "application/json" },
-                body: JSON.stringify({ content: comment, postId: postId }),
-            });
-            if (response.ok) {
-                setComment(""); 
-            } else {
-                console.error("Failed to post comment");
-            }
-            } catch (error) {
-                console.error("Error posting comment", error);
-            };
-        };
     const handleLike = async (e:any) => { 
         e.preventDefault();
         if(!post || !userId)    
