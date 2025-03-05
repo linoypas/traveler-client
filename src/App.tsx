@@ -2,16 +2,19 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/auth/login';
 import Register from './components/auth/register';
-import Post from './components/posts/createPost';
+import CreatePost from './components/posts/createPost';
+import Post from './components/posts/post';
+import Header from './components/header';
 
 function App() {
   return (
     <Router>
+      <Header />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/posts" element={<Post />} />
-
+        <Route path="/create-post" element={<CreatePost />} />
+        <Route path="/posts/:postId" element={<Post />} />
       </Routes>
     </Router>
   );

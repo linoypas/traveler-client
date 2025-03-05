@@ -1,33 +1,30 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function Post() {
-  const [title, setTitle] = useState('');
+
+const CreatePost = () => {
   const [content, setContent] = useState('');
-  const [photo, setPhoto] = useState('');
+  const [title, setTitle] = useState('');
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
-  console.log('Access Token:', accessToken);
-  
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:3001/posts', {
+      const response = await fetch("http://localhost:3001/posts",{
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          title: title,
-          content: content
-          //photo: photo
-        }),
-      });
+          title: title, 
+          content: content }),
+        });
 
       if (response.status === 201) {
         console.log('Post created');
-        navigate('/posts');
+        const data = await response.json();
+        navigate(`/posts/${data._id}`);
       } else {
         console.log('Failed to create post');
       }
@@ -38,24 +35,18 @@ function Post() {
 
   return (
     <div>
-      <h2>{'Create Post'}</h2>
+      <h2>{ 'Create Post'}</h2>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
+        <textarea
           placeholder="Post Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <textarea
-          placeholder="Post Content"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
         <input
           type="text"
           placeholder="Photo URL"
-          value={photo}
-          onChange={(e) => setPhoto(e.target.value)}
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
         />
         <button type="submit">{'Create Post'}</button>
       </form>
@@ -63,4 +54,4 @@ function Post() {
   );
 }
 
-export default Post;
+export default CreatePost;

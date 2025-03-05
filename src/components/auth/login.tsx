@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../../styles/Login.css'; 
-import logo from '../../assets/logo.png'; 
 
 function Login() {
   const [email, setEmail] = useState<string>('');
@@ -28,7 +26,8 @@ function Login() {
         const data = await response.json();
         if(data){
           localStorage.setItem('accessToken', data.accessToken);
-          localStorage.setItem('id',data.id);
+          localStorage.setItem('id',data._id);
+          localStorage.setItem('refreshToken',data.refreshToken);
         }
         navigate('/posts');
       }
@@ -39,36 +38,28 @@ function Login() {
   };
 
   return (
-    <div className="login-container">
-      <div className="logo-container">
-      <img src={logo} alt="Logo" className="logo" />
-      </div>
-      
+    <div>
       <h2>Login</h2>
-      
-      <form onSubmit={handleSubmit} className="login-form">
+      <form onSubmit={handleSubmit}>
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="input-field"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="input-field"
         />
-        <button type="submit" className="submit-button">Login</button>
+        <button type="submit">Login</button>
       </form>
-      
-      <p className="register-link">
-        Don't have an account? <button onClick={() => navigate('/register')} className="register-button">Register here</button>
+      <p>
+        Don't have an account? <button onClick={() => navigate('/register')}>Register here</button>
       </p>
     </div>
   );
-};
+}
 
 export default Login;

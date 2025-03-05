@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../styles/Login.css'; 
 import logo from '../../assets/logo.png'; 
 
-function Register() {
+const Register = () =>{
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
