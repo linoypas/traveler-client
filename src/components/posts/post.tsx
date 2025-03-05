@@ -12,7 +12,7 @@ interface Comment {
     title: string;  
     owner: String;
     content: string;
-    likes: number;
+    likes: string [];
   }
   
 
@@ -23,7 +23,9 @@ const Post = () => {
     const [post, setPost] = useState<IPost | null>(null);
     const [loading, setLoading] = useState(true);
     const [isLiked, setIsLiked] = useState(false);
+    const [likes, setLikes] = useState(0);
 
+    const userId = localStorage.getItem('id'); 
     const accessToken = localStorage.getItem('accessToken');
     useEffect(() => {
         const fetchPost = async () => {
@@ -41,6 +43,10 @@ const Post = () => {
             }
             const postData = await postReponse.json();
             setPost(postData);
+            setLikes(postData.likes.length);
+            if(postData.likes.includes(userId)){
+                setIsLiked(true);
+            }
             const commentResponse = await fetch(`http://localhost:3001/comments?postId=${postId}`, {
                 method: "GET",
                 headers: {
@@ -86,23 +92,32 @@ const Post = () => {
         };
     const handleLike = async (e:any) => { 
         e.preventDefault();
-        let likes = 0;
-        if(post?.likes){
-            likes = isLiked? post?.likes - 1 : post?.likes + 1;
+        if(!post || !userId)    
+            return;
+        let updatedLikes= [...post.likes];
+        if(isLiked){
+            updatedLikes= updatedLikes.filter(id => id !== userId);
+        } else {
+            updatedLikes.push(userId) ;
         }
-
         try {
             const response = await fetch(`http://localhost:3001/posts/${postId}`, {
                 method: "PUT",
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,
                     "Content-Type": "application/json" },
-                body: JSON.stringify({ likes: likes}),
+                body: JSON.stringify({ likes: updatedLikes}),
             });
+            if (!response.ok) {
+                console.error("Failed to update likes");
+            }
+            setIsLiked(!isLiked);
+            setLikes(updatedLikes.length);
+            setPost({ ...post, likes: updatedLikes });
+
         } catch (error) {
             console.error("Error updating likes", error);
         }
-        setIsLiked(!isLiked);
     }
 
 
@@ -116,7 +131,7 @@ const Post = () => {
         <p><strong>By: {post.owner || 'Unknown'}</strong></p> 
         <img src={post.content} alt="Post content" style={{ width: '100%', height: 'auto' }} />
         <button onClick={handleLike}>
-            {isLiked ? 'Unlike' : 'Like'} ({post.likes} Likes)
+            {isLiked ? 'Unlike' : 'Like'} ({likes} Likes)
       </button>
         <form onSubmit={handleComment}>
         <textarea

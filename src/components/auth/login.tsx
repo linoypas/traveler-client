@@ -26,7 +26,7 @@ function Login() {
         const data = await response.json();
         if(data){
           localStorage.setItem('accessToken', data.accessToken);
-          localStorage.setItem('id',data.id);
+          localStorage.setItem('id',data._id);
         }
         navigate('/posts');
       }
