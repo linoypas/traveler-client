@@ -27,6 +27,7 @@ function Login() {
         if(data){
           localStorage.setItem('accessToken', data.accessToken);
           localStorage.setItem('id',data._id);
+          localStorage.setItem('refreshToken',data.refreshToken);
         }
         navigate('/posts');
       }

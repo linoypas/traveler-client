@@ -4,10 +4,12 @@ import Login from './components/auth/login';
 import Register from './components/auth/register';
 import CreatePost from './components/posts/createPost';
 import Post from './components/posts/post';
+import Header from './components/header';
 
 function App() {
   return (
     <Router>
+      <Header />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

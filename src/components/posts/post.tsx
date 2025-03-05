@@ -120,7 +120,9 @@ const Post = () => {
         }
     }
 
-
+    const isImage = (content: string) => {
+        return /\.(jpeg|jpg|png|gif|webp)$/i.test(content);
+    };
 
     if (!post || loading) {
         return <p>Loading...</p>; 
@@ -129,8 +131,11 @@ const Post = () => {
     <div>
         <h3>{post.title}</h3>
         <p><strong>By: {post.owner || 'Unknown'}</strong></p> 
-        <img src={post.content} alt="Post content" style={{ width: '100%', height: 'auto' }} />
-        <button onClick={handleLike}>
+        {isImage(post.content) ? (
+                <img src={post.content} alt="Post content" style={{ width: '100%', height: 'auto' }} />
+            ) : (
+                <p>{post.content}</p>
+            )}        <button onClick={handleLike}>
             {isLiked ? 'Unlike' : 'Like'} ({likes} Likes)
       </button>
         <form onSubmit={handleComment}>
