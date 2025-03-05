@@ -135,13 +135,14 @@ const Post = () => {
                 <img src={post.content} alt="Post content" style={{ width: '100%', height: 'auto' }} />
             ) : (
                 <p>{post.content}</p>
-            )}        <button onClick={handleLike}>
+            )} 
+        <button onClick={handleLike}>
             {isLiked ? 'Unlike' : 'Like'} ({likes} Likes)
       </button>
       <div>
-        <h4>Comments:</h4> {comments.length} 
+      <a href={`/comments/${postId}`}>{comments.length} comments</a>
         </div>
-        </div>
+    </div>
     );
 }
 

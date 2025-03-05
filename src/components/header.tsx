@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import {useState} from 'react';
 
 const Header: React.FC = () => {
     const navigate = useNavigate();
+    const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('accessToken'));
+    const refreshToken = localStorage.getItem('refreshToken');
     const accessToken = localStorage.getItem('accessToken');
     const userId = localStorage.getItem('id');
 
@@ -13,15 +16,16 @@ const Header: React.FC = () => {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify({ refreshToken }),
             });
-            console.log()
             if (!response.ok) {
                 throw new Error('Logout failed');
+            }else{
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('id'); 
+                setIsLoggedIn(false);
             }
-
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('id');
 
 
         } catch (error) {
@@ -36,7 +40,7 @@ const Header: React.FC = () => {
                 <div >
                     <span >👤</span>
                     <span>{userId || 'User'}</span>
-                    {accessToken ? (
+                    {isLoggedIn ? (
                     <button onClick={handleLogout} >Logout</button>
                 ) : (
                     <Link to="/login">

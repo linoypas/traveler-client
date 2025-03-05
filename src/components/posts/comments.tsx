@@ -7,26 +7,18 @@ interface Comment {
     content: string;
     postId: string;
   }
-  interface IPost {
-    id: string;
-    title: string;  
-    owner: String;
-    content: string;
-    likes: string [];
-  }
   
 
-const Post = () => {
+const Comments = () => {
     const { postId } = useParams<{ postId: string }>();
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState<Comment[]>([]);
-    const [post, setPost] = useState<IPost | null>(null);
     const [loading, setLoading] = useState(true);
 
     const userId = localStorage.getItem('id'); 
     const accessToken = localStorage.getItem('accessToken');
     useEffect(() => {
-        const fetchPost = async () => {
+        const fetchComments = async () => {
           try {
             const commentResponse = await fetch(`http://localhost:3001/comments?postId=${postId}`, {
                 method: "GET",
@@ -42,18 +34,21 @@ const Post = () => {
             setComments(commentsData);
 
           } catch (error) {
-            console.error("Error fetching post ", error);
+            console.error("Error fetching comments ", error);
           } finally {
             setLoading(false);
           }
 
         };
     
-        fetchPost();
+        fetchComments();
       }, [postId]); 
     
     const handleComment = async (e: any) => {
         e.preventDefault();
+        if(!userId || !postId)
+            return;
+        
         try {
             const response = await fetch(`http://localhost:3001/comments/`, {
                 method: "POST",
@@ -64,6 +59,8 @@ const Post = () => {
             });
             if (response.ok) {
                 setComment(""); 
+                const responseData: { id: string } = await response.json();
+                setComments(prevComments => [...prevComments, { id: responseData.id, owner: userId , content: comment, postId: postId }]);
             } else {
                 console.error("Failed to post comment");
             }
@@ -72,12 +69,19 @@ const Post = () => {
             };
         };
   
-    if (!post || loading) {
+    if ( loading) {
         return <p>Loading...</p>; 
     }
     return (
     <div>
-        <h3>{post.title}</h3>
+        <form onSubmit={handleComment}>
+        <textarea
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            placeholder="Add a comment"
+        />
+        <button type="submit">Post Comment</button>
+        </form>
         <div>
             <h4>Comments:</h4>
             {comments.length > 0 ? (
@@ -94,4 +98,4 @@ const Post = () => {
     );
 }
 
-export default Post;
+export default Comments;
