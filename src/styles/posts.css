@@ -1,0 +1,44 @@
+/* Masonry Layout */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjust columns based on screen size */
+    gap: 16px; /* Space between items */
+  }
+  
+  .grid-item {
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  
+  .grid-item:hover {
+    transform: scale(1.05);
+  }
+  
+  img {
+    width: 100%;
+    object-fit: cover;
+    height: auto;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .p-4 {
+    padding: 16px;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .text-3xl {
+    font-size: 2rem;
+  }
+  
+  .text-sm {
+    font-size: 0.875rem;
+  }
+  
