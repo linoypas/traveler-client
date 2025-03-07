@@ -35,7 +35,6 @@ const Header: React.FC = () => {
     return (
         <header className="header">
             <div className="left">
-                {/* Home Icon Link */}
                 <Link to="/posts" className="home-link">
                     <FaHome className="home-icon" />
                 </Link>
