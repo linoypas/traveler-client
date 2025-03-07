@@ -144,7 +144,7 @@ const Post = () => {
           )}
 
         {isImage(post.content) ? (
-          <div className="w-full h-48 relative">
+        <div className="w-full h-48 relative mt-4">
             <img
               src={post.content}
               alt="Post content"
