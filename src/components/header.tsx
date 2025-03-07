@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/header.css';
-import { FaHome } from 'react-icons/fa'; // Import FontAwesome Home icon
+import { FaHome ,FaSearch} from 'react-icons/fa'; // Import FontAwesome Home icon
 
 const Header: React.FC = () => {
     const navigate = useNavigate();
@@ -40,6 +40,7 @@ const Header: React.FC = () => {
                     <FaHome className="home-icon" />
                 </Link>
                 <h2>Traveler</h2>
+                <FaSearch className="search-icon" onClick={() => navigate('/ai-posts')} />
             </div>
 
             <div className="right">

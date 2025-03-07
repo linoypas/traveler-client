@@ -72,3 +72,8 @@
     padding-top: 60px; /* This ensures the content is pushed below the header */
   }
   
+  .search-icon {
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 1.2em;
+  }
