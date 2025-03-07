@@ -5,6 +5,7 @@ import Register from './components/auth/register';
 import CreatePost from './components/posts/createPost';
 import Post from './components/posts/post';
 import Header from './components/header';
+import Profile from './components/user/profile';
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/create-post" element={<CreatePost />} />
         <Route path="/posts/:postId" element={<Post />} />
+        <Route path="/user/" element={<Profile/>} />
+
       </Routes>
     </Router>
   );
