@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import '../../styles/UserProfile.css';
 function UserProfile() {
     const [userInfo, setUserInfo] = useState<any>(null);
     const [userPosts, setUserPosts] = useState<any[]>([]);
@@ -42,7 +42,7 @@ function UserProfile() {
         };
 
         fetchUserData();
-    }, [userId, navigate]); // Re-run if userId changes
+    }, [userId, navigate]); 
 
     if (loading) {
         return <p>Loading...</p>;
@@ -51,22 +51,26 @@ function UserProfile() {
     if (!userInfo) {
         return <p>User not found</p>;
     }
-
+    const handlePostClick = (postId: string) => {
+        navigate(`/posts/${postId}`);
+    };
     return (
-        <div>
+<div className="profile-container">
             <h2>{userInfo.name}'s Profile</h2>
             <p>Email: {userInfo.email}</p>
             <h3>Posts:</h3>
-            {userPosts.length > 0 ? (
-                userPosts.map((post) => (
-                    <div key={post._id} className="post">
-                        <p>{post.content}</p>
-                        {post.photo && <img src={post.photo} alt="Post" width="200" />}
-                    </div>
-                ))
-            ) : (
-                <p>No posts available</p>
-            )}
+            <div className="posts-grid">
+                {userPosts.length > 0 ? (
+                    userPosts.map((post) => (
+                        <div key={post._id} className="post-card" onClick={() => handlePostClick(post._id)}>
+                            {post.photo && <img src={post.photo} alt="Post" className="post-image" />}
+                            <div className="post-title">{post.content}</div>
+                        </div>
+                    ))
+                ) : (
+                    <p>No posts available</p>
+                )}
+            </div>
         </div>
     );
 }
