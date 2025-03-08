@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { FaHeart, FaRegHeart } from 'react-icons/fa'; 
+import { useNavigate, useParams} from 'react-router-dom';
+import { FaHeart, FaRegHeart , FaTrash, FaEdit} from 'react-icons/fa'; 
 
 interface IPost {
   id: string;
@@ -17,6 +17,7 @@ const Post = () => {
   const [loading, setLoading] = useState(true);
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState(0);
+  const navigate = useNavigate();
 
   const userId = localStorage.getItem('id');
   const accessToken = localStorage.getItem('accessToken');
@@ -92,6 +93,32 @@ const Post = () => {
     }
   };
 
+  const handleDelete = async () => {
+    if (window.confirm('Are you sure you want to delete this post?')) {
+      try {
+        const response = await fetch(`http://localhost:3001/posts/${postId}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          console.error('Failed to delete post');
+        } else {
+          navigate('/posts'); 
+        }
+      } catch (error) {
+        console.error('Error deleting post', error);
+      }
+    }
+  };
+  const handleEdit = async () => {
+    navigate(`/posts/edit/${postId}`);
+  };
+
+
   const isImage = (content: string) => {
     return /\.(jpeg|jpg|png|gif|webp)$/i.test(content);
   };
@@ -105,9 +132,19 @@ const Post = () => {
       <div className="flex flex-col items-center bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition-all duration-300">
         <h3 className="text-4xl font-semibold p-4">{post.title}</h3>
         <p className="text-lg text-gray-600">By: {post.owner || 'Unknown'}</p>
+        {post.owner === userId && (
+            <div className="flex space-x-4">
+              <button onClick={handleEdit} className="text-blue-600 hover:underline">
+                <FaEdit className="text-2xl" />
+              </button>
+              <button onClick={handleDelete} className="text-red-600 hover:underline">
+                <FaTrash className="text-2xl" />
+              </button>
+            </div>
+          )}
 
         {isImage(post.content) ? (
-          <div className="w-full h-48 relative">
+        <div className="w-full h-48 relative mt-4">
             <img
               src={post.content}
               alt="Post content"

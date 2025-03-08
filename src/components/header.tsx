@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/header.css';
-import { FaHome ,FaSearch} from 'react-icons/fa'; // Import FontAwesome Home icon
+import { FaHome ,FaSearch, FaPlus } from 'react-icons/fa'; 
+import { RiAddCircleLine } from 'react-icons/ri'; 
 
 const Header: React.FC = () => {
     const navigate = useNavigate();
@@ -35,7 +36,6 @@ const Header: React.FC = () => {
     return (
         <header className="header">
             <div className="left">
-                {/* Home Icon Link */}
                 <Link to="/posts" className="home-link">
                     <FaHome className="home-icon" />
                 </Link>
@@ -49,7 +49,10 @@ const Header: React.FC = () => {
                         <span>👤</span>
                         <span>{userId || 'User'}</span>
                         {isLoggedIn ? (
+                            <>
                             <button onClick={handleLogout}>Logout</button>
+                            <RiAddCircleLine className="plus-icon" onClick={() => navigate('/create-post')} /> 
+                            </>
                         ) : (
                             <Link to="/login">
                                 <button>Login</button>

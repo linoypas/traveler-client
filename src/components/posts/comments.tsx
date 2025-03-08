@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { FaTrash } from 'react-icons/fa';  // Import trash icon
+
 
 interface IComment {
-    id: string;
+    _id: string;
     owner: string;
     content: string;
     postId: string;
@@ -60,13 +62,34 @@ const Comments = () => {
             if (response.ok) {
                 setComment(""); 
                 const responseData: { id: string } = await response.json();
-                setComments(prevComments => [...prevComments, { id: responseData.id, owner: userId , content: comment, postId: postId }]);
+                setComments(prevComments => [...prevComments, { _id: responseData.id, owner: userId , content: comment, postId: postId }]);
             } else {
                 console.error("Failed to post comment");
             }
             } catch (error) {
                 console.error("Error posting comment", error);
             };
+        };
+
+        const handleDeleteComment = async (commentId : string) => {
+            if (!userId) return;
+            console.log(commentId);
+            try {
+                const response = await fetch(`http://localhost:3001/comments/${commentId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+                if (response.ok) {
+                    setComments(prevComments => prevComments.filter(comment => comment._id !== commentId));
+                } else {
+                    console.error("Failed to delete comment");
+                }
+            } catch (error) {
+                console.error("Error deleting comment", error);
+            }
         };
   
     if ( loading) {
@@ -88,6 +111,19 @@ const Comments = () => {
                     comments.map((comment, idx) => (
                         <div key={idx}>
                             <strong>{comment.owner}</strong>: {comment.content}
+                            {comment.owner === userId && (
+                                <button
+                                    onClick={() => handleDeleteComment(comment._id)}
+                                    style={{
+                                        border: 'none',
+                                        background: 'transparent',
+                                        cursor: 'pointer',
+                                        marginLeft: '10px',
+                                    }}
+                                >
+                                    <FaTrash size={18} color="red" />
+                                </button>
+                            )}
                         </div>
                     ))
                 ) : (
