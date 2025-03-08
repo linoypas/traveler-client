@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import '../styles/header.css';
+import { FaHome ,FaSearch, FaPlus } from 'react-icons/fa'; 
+import { RiAddCircleLine } from 'react-icons/ri'; 
 
 const Header: React.FC = () => {
     const navigate = useNavigate();
+    const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('accessToken'));
+    const refreshToken = localStorage.getItem('refreshToken');
     const accessToken = localStorage.getItem('accessToken');
     const userId = localStorage.getItem('id');
 
@@ -13,42 +18,51 @@ const Header: React.FC = () => {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify({ refreshToken }),
             });
-            console.log()
             if (!response.ok) {
                 throw new Error('Logout failed');
+            } else {
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('id');
+                setIsLoggedIn(false);
             }
-
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('id');
-
-
         } catch (error) {
             console.error('Error during logout:', error);
         }
     };
 
     return (
-        <header>
-            <h2>Traveler</h2>
-            <nav>
-                <div >
-                    <span >👤</span>
-                    <span>{userId || 'User'}</span>
-                    {accessToken ? (
-                    <button onClick={handleLogout} >Logout</button>
-                ) : (
-                    <Link to="/login">
-                        <button >Login</button>
-                    </Link>
-                )}
-                 </div>
-            </nav>
+        <header className="header">
+            <div className="left">
+                <Link to="/posts" className="home-link">
+                    <FaHome className="home-icon" />
+                </Link>
+                <h2>Traveler</h2>
+                <FaSearch className="search-icon" onClick={() => navigate('/ai-posts')} />
+            </div>
+
+            <div className="right">
+                <nav className="nav-container">
+                    <div className="user-info">
+                        <span>👤</span>
+                        <span>{userId || 'User'}</span>
+                        {isLoggedIn ? (
+                            <>
+                            <button onClick={handleLogout}>Logout</button>
+                            <RiAddCircleLine className="plus-icon" onClick={() => navigate('/create-post')} /> 
+                            </>
+                        ) : (
+                            <Link to="/login">
+                                <button>Login</button>
+                            </Link>
+                        )}
+                    </div>
+                </nav>
+            </div>
         </header>
     );
 };
-
-
 
 export default Header;
