@@ -8,6 +8,7 @@ interface IPost {
   owner: string;
   content: string;
   likes: string[];
+  image?: string;
 }
 
 const Posts = () => {
@@ -42,10 +43,6 @@ const Posts = () => {
     fetchPost();
   }, []); 
 
-  const isImage = (content: string) => {
-    return /\.(jpeg|jpg|png|gif|webp)$/i.test(content);
-  };
-
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -58,8 +55,8 @@ const Posts = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {posts.map((post) => (
             <div key={post._id} className="bg-white rounded-2xl shadow-lg overflow-hidden break-inside-avoid-column">
-              {isImage(post.content) ? (
-                <img src={post.content} alt={post.title} className="w-full h-auto rounded-t-2xl" />
+             {post.image ? (
+                <img src={`http://localhost:3001${post.image}`} alt={post.title} className="w-full h-auto rounded-t-2xl" />
               ) : (
                 <p className="p-4 text-gray-700">{post.content}</p>
               )}
