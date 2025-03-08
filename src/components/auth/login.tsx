@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-interface LoginResponse {
-  message: string; // Adjust this to match your response structure from the server
-}
-
 function Login() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -27,6 +23,12 @@ function Login() {
         alert(`Error from server:\n ${errorMessage}`);
       } else {
         console.log('Logging in with:', email, password);
+        const data = await response.json();
+        if(data){
+          localStorage.setItem('accessToken', data.accessToken);
+          localStorage.setItem('id',data._id);
+          localStorage.setItem('refreshToken',data.refreshToken);
+        }
         navigate('/posts');
       }
     } catch (error: any) {
