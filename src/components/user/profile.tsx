@@ -55,22 +55,39 @@ function UserProfile() {
         navigate(`/posts/${postId}`);
     };
     return (
-<div className="profile-container">
-            <h2>{userInfo.name}'s Profile</h2>
-            <p>Email: {userInfo.email}</p>
-            <h3>Posts:</h3>
-            <div className="posts-grid">
-                {userPosts.length > 0 ? (
-                    userPosts.map((post) => (
-                        <div key={post._id} className="post-card" onClick={() => handlePostClick(post._id)}>
-                            {post.photo && <img src={post.photo} alt="Post" className="post-image" />}
-                            <div className="post-title">{post.content}</div>
-                        </div>
-                    ))
-                ) : (
-                    <p>No posts available</p>
-                )}
+        <div className="profile-container p-6 bg-gray-50 min-h-screen">
+            <div className="text-center mb-8">
+                <h2 className="text-4xl font-semibold text-gray-800">{userInfo.name}'s Profile</h2>
+                <p className="text-xl text-gray-600">Email: {userInfo.email}</p>
             </div>
+            <h3 className="text-2xl font-semibold mt-8 mb-4 text-gray-800">Posts:</h3>
+            {userPosts.length === 0 ? (
+                <p className="text-center text-gray-500">No posts available</p>
+            ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {userPosts.map((post) => (
+                        <div
+                            key={post._id}
+                            className="post-card bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105"
+                            onClick={() => handlePostClick(post._id)}
+                        >
+                            {post.photo ? (
+                                <img
+                                    src={`http://localhost:3001${post.photo}`}
+                                    alt={post.title}
+                                    className="w-full h-auto rounded-t-2xl"
+                                />
+                            ) : (
+                                <p className="p-4 text-gray-700">{post.content}</p>
+                            )}
+                            <div className="p-4">
+                                <h2 className="text-lg font-semibold text-gray-800">{post.title}</h2>
+                                <p className="text-sm text-gray-500">By: {post.owner || 'Unknown'}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 }

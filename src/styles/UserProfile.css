@@ -1,54 +1,20 @@
+/* UserProfile.css */
 .profile-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
     text-align: center;
-    padding: 2rem;
-    font-family: Arial, sans-serif;
-  }
-  
-  .profile-container h2 {
+}
+
+.profile-container h2 {
+    font-size: 30px;
+    font-weight: 600;
     color: #333;
-    margin-bottom: 0.5rem;
-  }
-  
-  .profile-container p {
+}
+
+.profile-container p {
+    font-size: 18px;
     color: #666;
-    margin-bottom: 1rem;
-  }
-  
-  .posts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1.5rem;
-    padding: 2rem;
-    justify-items: center;
-  }
-  
-  .post-card {
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    overflow: hidden;
-    transition: transform 0.3s ease-in-out;
-    cursor: pointer;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 100%;
-    max-width: 300px;
-  }
-  
-  .post-card:hover {
-    transform: scale(1.05);
-  }
-  
-  .post-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  .post-title {
-    padding: 1rem;
-    font-weight: bold;
-    color: #333;
-    background-color: #f4f4f4;
-  }
-  
+    margin-bottom: 20px;
+}
