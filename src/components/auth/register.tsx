@@ -1,41 +1,58 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../../styles/Login.css'; 
-import logo from '../../assets/logo.png'; 
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../../styles/Login.css";
+import logo from "../../assets/logo.png";
 
-const Register = () =>{
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const Register = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [image, setImage] = useState<File | null>(null);
   const navigate = useNavigate();
-  const handleSubmit = async (e:any) => {
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]; 
+    if (file) {
+      setImage(file);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try{
-      const response = await fetch('http://localhost:3001/auth/register',{
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
+
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("username", username);
+    formData.append("password", password);
+    if (image) {
+      formData.append("image", image);
+    }
+
+    try {
+      const response = await fetch("http://localhost:3001/auth/register", {
+        method: "POST",
+        body: formData, 
       });
-      if(response.ok) {
-        console.log('Registering with:', email, password);
-        navigate('/login');
+
+      if (response.ok) {
+        console.log("Registered successfully!");
+        navigate("/login");
       } else {
-        console.log('Invalid credentials. Please try again.');
+        console.log("Registration failed.");
       }
     } catch (error) {
-      console.error('Error during register:', error);
+      console.error("Error during register:", error);
     }
   };
 
   return (
-<div className="login-container">
+    <div className="login-container">
       <div className="logo-container">
-      <img src={logo} alt="Logo" className="logo" />
+        <img src={logo} alt="Logo" className="logo" />
       </div>
-      
+
       <h2>Register</h2>
-      
+
       <form onSubmit={handleSubmit} className="login-form">
         <input
           type="email"
@@ -43,6 +60,15 @@ const Register = () =>{
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="input-field"
+          required
+        />
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="input-field"
+          required
         />
         <input
           type="password"
@@ -50,12 +76,19 @@ const Register = () =>{
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="input-field"
+          required
         />
-        <button type="submit" className="submit-button">Register</button>
+        <input type="file" name="image" accept="image/*" onChange={handleFileChange} />
+        <button type="submit" className="submit-button">
+          Register
+        </button>
       </form>
-      
+
       <p className="register-link">
-        Already have an account?<button onClick={() => navigate('/login')} className="register-button">Login here</button>
+        Already have an account?
+        <button onClick={() => navigate("/login")} className="register-button">
+          Login here
+        </button>
       </p>
     </div>
   );
