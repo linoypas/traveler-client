@@ -54,21 +54,21 @@ const Posts = () => {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {posts.map((post) => (
-            <div key={post._id} className="post-card">
-              {post.image ? (
-                <img src={`http://localhost:3001${post.image}`} alt={post.title} className="post-image" />
-              ) : (
-                <p className="p-4 text-gray-700">{post.content}</p>
-              )}
-              <div className="p-4">
-                <h2 className="text-lg font-semibold">
-                  <Link to={`/posts/${post._id}`} className="text-blue-600 hover:underline">
+            <Link to={`/posts/${post._id}`} key={post._id} className="post-card-link">
+              <div className="post-card">
+                {post.image ? (
+                  <img src={`http://localhost:3001${post.image}`} alt={post.title} className="post-image" />
+                ) : (
+                  <p className="p-4 text-gray-700">{post.content}</p>
+                )}
+                <div className="p-4">
+                  <h2 className="text-lg font-semibold">
                     {post.title}
-                  </Link>
-                </h2>
-                <p className="text-sm text-gray-500">By: {post.owner || 'Unknown'}</p>
+                  </h2>
+                  <p className="text-sm text-gray-500">By: {post.owner || 'Unknown'}</p>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}
