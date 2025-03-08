@@ -26,6 +26,7 @@ function UserProfile() {
                     throw new Error('Failed to fetch user data');
                 }
                 const userData = await userResponse.json();
+                console.log(userData);
                 setUserInfo(userData);
 
                 const postsResponse = await fetch(`http://localhost:3001/posts?owner=${userId}`);
@@ -44,6 +45,8 @@ function UserProfile() {
         fetchUserData();
     }, [userId, navigate]); 
 
+    console.log("UserInfo state:", userInfo);
+
     if (loading) {
         return <p>Loading...</p>;
     }
@@ -56,19 +59,11 @@ function UserProfile() {
     };
     return (
         <>
-            {/* Email Bar at the Very Top */}
-            <div className="fixed top-0 left-0 w-full bg-white shadow-md py-4 text-center z-20">
-                <p className="text-lg font-semibold text-gray-700">{userInfo.email}</p>
-            </div>
-    
-            {/* Main Content - Give it padding so it's not hidden by the fixed email bar */}
             <div className="p-6 bg-gradient-to-r from-blue-50 via-indigo-100 to-purple-200 min-h-screen pt-20">
-                {/* User Profile Name */}
                 <div className="text-center my-12">
-                    <h2 className="text-5xl font-extrabold text-gray-800">{userInfo.name}'s Profile</h2>
+                    <h2 className="text-5xl font-extrabold text-gray-800">{userInfo.email}</h2>
                 </div>
     
-                {/* Posts Section */}
                 <h3 className="text-3xl font-semibold mt-8 text-gray-800 mb-6">Your Posts:</h3>
                 {userPosts.length === 0 ? (
                     <p className="text-center text-gray-500">No posts available</p>
