@@ -55,41 +55,52 @@ function UserProfile() {
         navigate(`/posts/${postId}`);
     };
     return (
-        <div className="profile-container p-6 bg-gray-50 min-h-screen">
-            <div className="text-center mb-8">
-                <h2 className="text-4xl font-semibold text-gray-800">{userInfo.name}'s Profile</h2>
-                <p className="text-xl text-gray-600">Email: {userInfo.email}</p>
+        <>
+            {/* Email Bar at the Very Top */}
+            <div className="fixed top-0 left-0 w-full bg-white shadow-md py-4 text-center z-20">
+                <p className="text-lg font-semibold text-gray-700">{userInfo.email}</p>
             </div>
-            <h3 className="text-2xl font-semibold mt-8 mb-4 text-gray-800">Posts:</h3>
-            {userPosts.length === 0 ? (
-                <p className="text-center text-gray-500">No posts available</p>
-            ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {userPosts.map((post) => (
-                        <div
-                            key={post._id}
-                            className="post-card bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105"
-                            onClick={() => handlePostClick(post._id)}
-                        >
-                            {post.photo ? (
-                                <img
-                                    src={`http://localhost:3001${post.photo}`}
-                                    alt={post.title}
-                                    className="w-full h-auto rounded-t-2xl"
-                                />
-                            ) : (
-                                <p className="p-4 text-gray-700">{post.content}</p>
-                            )}
-                            <div className="p-4">
-                                <h2 className="text-lg font-semibold text-gray-800">{post.title}</h2>
-                                <p className="text-sm text-gray-500">By: {post.owner || 'Unknown'}</p>
-                            </div>
-                        </div>
-                    ))}
+    
+            {/* Main Content - Give it padding so it's not hidden by the fixed email bar */}
+            <div className="p-6 bg-gradient-to-r from-blue-50 via-indigo-100 to-purple-200 min-h-screen pt-20">
+                {/* User Profile Name */}
+                <div className="text-center my-12">
+                    <h2 className="text-5xl font-extrabold text-gray-800">{userInfo.name}'s Profile</h2>
                 </div>
-            )}
-        </div>
+    
+                {/* Posts Section */}
+                <h3 className="text-3xl font-semibold mt-8 text-gray-800 mb-6">Your Posts:</h3>
+                {userPosts.length === 0 ? (
+                    <p className="text-center text-gray-500">No posts available</p>
+                ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-6">
+                        {userPosts.map((post) => (
+                            <div
+                                key={post._id}
+                                className="post-card"
+                                onClick={() => handlePostClick(post._id)}
+                            >
+                                {post.image ? (
+                                    <img
+                                        src={`http://localhost:3001${post.image}`}
+                                        alt={post.title}
+                                        className="post-image"
+                                    />
+                                ) : (
+                                    <div className="p-6 text-gray-700">
+                                        <p>{post.content}</p>
+                                    </div>
+                                )}
+                                <div className="p-6">
+                                    <h2 className="text-2xl font-semibold text-gray-800">{post.title}</h2>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+        </>
     );
-}
-
+    
+}    
 export default UserProfile;

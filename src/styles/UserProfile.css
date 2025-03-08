@@ -1,20 +1,46 @@
-/* UserProfile.css */
-.profile-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: 'Poppins', sans-serif;
-    text-align: center;
-}
-
-.profile-container h2 {
-    font-size: 30px;
-    font-weight: 600;
-    color: #333;
-}
-
-.profile-container p {
-    font-size: 18px;
-    color: #666;
-    margin-bottom: 20px;
-}
+/* Make sure the images are square and properly cropped */
+.post-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;  /* Forces a square shape */
+    object-fit: cover;    /* Ensures the image is cropped properly */
+    object-position: center;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    transition: transform 0.3s ease;
+  }
+  
+  /* Hover Effect */
+  .post-image:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Post Card Styling */
+  .post-card {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  
+  .post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Fixed Email Bar at the Top */
+  .fixed.top-0 {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: white;
+    z-index: 20;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Add padding to prevent first row from getting cut */
+  .pt-20 {
+    padding-top: 5rem; /* Adjust padding so content is not hidden under the email bar */
+  }
+  
