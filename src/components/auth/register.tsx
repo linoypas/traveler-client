@@ -51,11 +51,11 @@ const Register = () =>{
           onChange={(e) => setPassword(e.target.value)}
           className="input-field"
         />
-        <button type="submit" className="submit-button">Login</button>
+        <button type="submit" className="submit-button">Register</button>
       </form>
       
       <p className="register-link">
-        Already have an account?<button onClick={() => navigate('/login')} className="register-button">Register here</button>
+        Already have an account?<button onClick={() => navigate('/login')} className="register-button">Login here</button>
       </p>
     </div>
   );

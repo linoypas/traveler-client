@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../../styles/Login.css'; 
+import logo from '../../assets/logo.png'; 
 
 function Login() {
   const [email, setEmail] = useState<string>('');
@@ -38,28 +40,36 @@ function Login() {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Login</button>
-      </form>
-      <p>
-        <p>Don't have an account? <a href="/register">Register here</a></p>
-      </p>
-    </div>
-  );
-}
+    <div className="login-container">
+          <div className="logo-container">
+          <img src={logo} alt="Logo" className="logo" />
+          </div>
+          
+          <h2>Login</h2>
+          
+          <form onSubmit={handleSubmit} className="login-form">
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="input-field"
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="input-field"
+            />
+            <button type="submit" className="submit-button">Register</button>
+          </form>
+          
+          <p className="register-link">
+            Don't have an account?<button onClick={() => navigate('/register')} className="register-button">Register here</button>
+          </p>
+        </div>
+      );
+    };
 
 export default Login;
