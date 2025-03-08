@@ -1,32 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { FaTrash } from 'react-icons/fa';  // Import trash icon
 
-interface Comment {
-    id: string;
+
+interface IComment {
+    _id: string;
     owner: string;
     content: string;
     postId: string;
   }
-  interface IPost {
-    id: string;
-    title: string;  
-    owner: String;
-    content: string;
-    likes: string [];
-  }
   
 
-const Post = () => {
+const Comments = () => {
     const { postId } = useParams<{ postId: string }>();
     const [comment, setComment] = useState('');
-    const [comments, setComments] = useState<Comment[]>([]);
-    const [post, setPost] = useState<IPost | null>(null);
+    const [comments, setComments] = useState<IComment[]>([]);
     const [loading, setLoading] = useState(true);
 
     const userId = localStorage.getItem('id'); 
     const accessToken = localStorage.getItem('accessToken');
     useEffect(() => {
-        const fetchPost = async () => {
+        const fetchComments = async () => {
           try {
             const commentResponse = await fetch(`http://localhost:3001/comments?postId=${postId}`, {
                 method: "GET",
@@ -42,18 +36,21 @@ const Post = () => {
             setComments(commentsData);
 
           } catch (error) {
-            console.error("Error fetching post ", error);
+            console.error("Error fetching comments ", error);
           } finally {
             setLoading(false);
           }
 
         };
     
-        fetchPost();
+        fetchComments();
       }, [postId]); 
     
     const handleComment = async (e: any) => {
         e.preventDefault();
+        if(!userId || !postId)
+            return;
+        
         try {
             const response = await fetch(`http://localhost:3001/comments/`, {
                 method: "POST",
@@ -64,6 +61,8 @@ const Post = () => {
             });
             if (response.ok) {
                 setComment(""); 
+                const responseData: { id: string } = await response.json();
+                setComments(prevComments => [...prevComments, { _id: responseData.id, owner: userId , content: comment, postId: postId }]);
             } else {
                 console.error("Failed to post comment");
             }
@@ -71,19 +70,60 @@ const Post = () => {
                 console.error("Error posting comment", error);
             };
         };
+
+        const handleDeleteComment = async (commentId : string) => {
+            if (!userId) return;
+            console.log(commentId);
+            try {
+                const response = await fetch(`http://localhost:3001/comments/${commentId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+                if (response.ok) {
+                    setComments(prevComments => prevComments.filter(comment => comment._id !== commentId));
+                } else {
+                    console.error("Failed to delete comment");
+                }
+            } catch (error) {
+                console.error("Error deleting comment", error);
+            }
+        };
   
-    if (!post || loading) {
+    if ( loading) {
         return <p>Loading...</p>; 
     }
     return (
     <div>
-        <h3>{post.title}</h3>
+        <form onSubmit={handleComment}>
+        <textarea
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            placeholder="Add a comment"
+        />
+        <button type="submit">Post Comment</button>
+        </form>
         <div>
             <h4>Comments:</h4>
             {comments.length > 0 ? (
                     comments.map((comment, idx) => (
                         <div key={idx}>
                             <strong>{comment.owner}</strong>: {comment.content}
+                            {comment.owner === userId && (
+                                <button
+                                    onClick={() => handleDeleteComment(comment._id)}
+                                    style={{
+                                        border: 'none',
+                                        background: 'transparent',
+                                        cursor: 'pointer',
+                                        marginLeft: '10px',
+                                    }}
+                                >
+                                    <FaTrash size={18} color="red" />
+                                </button>
+                            )}
                         </div>
                     ))
                 ) : (
@@ -94,4 +134,4 @@ const Post = () => {
     );
 }
 
-export default Post;
+export default Comments;
