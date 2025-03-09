@@ -56,7 +56,7 @@ const CreatePost = () => {
     if (isPostCreated) {
       setTimeout(() => {
         navigate('/posts');
-      }, 3000); // Navigate after 3 seconds delay
+      }, 3000); 
     }
   }, [isPostCreated, navigate]);
 
