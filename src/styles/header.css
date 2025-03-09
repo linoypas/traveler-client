@@ -63,9 +63,9 @@
 .user-info {
     display: flex;
     align-items: center;
-    gap: 12px;  /* Add spacing */
+    gap: 12px;  
     font-size: 1rem;
-    overflow: visible; /* Prevent cutting */
+    overflow: visible; 
 }
 .profile-icon {
     color: #ECF0F1;
@@ -88,12 +88,10 @@ button:hover {
     transform: translateY(-2px);
 }
 
-/* Fixing disappearing issue */
 body {
-    padding-top: 70px; /* Prevents content from being hidden behind the fixed header */
+    padding-top: 70px; 
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .header {
         flex-direction: column;
@@ -112,7 +110,7 @@ body {
         display: flex;
         align-items: center;
         gap: 15px;
-        overflow: visible; /* Ensure icons aren't clipped */
+        overflow: visible; 
     }
 
     .user-info {

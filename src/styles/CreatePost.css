@@ -85,7 +85,7 @@ h2 {
 
 .submit-btn:hover {
   background: linear-gradient(135deg, #289c8b, #33ABA5);
-  transform: scale(1.05); /* Slightly enlarge on hover */
+  transform: scale(1.05); 
 }
 
 .popup-message {
