@@ -59,9 +59,21 @@ function UserProfile() {
     };
     return (
         <>
-            <div className="p-6 bg-gradient-to-r from-blue-50 via-indigo-100 to-purple-200 min-h-screen pt-20">
-                <div className="text-center my-12">
-                    <h2 className="text-5xl font-extrabold text-gray-800">{userInfo.email}</h2>
+<div className="container">
+<div className="text-center my-12">
+                    {userInfo.image ? (
+                        <img
+                            src={`http://localhost:3001${userInfo.image}`}
+                            alt="Profile"
+                            className="profile-picture"
+                            />
+                    ) : (
+                        <div className="w-24 h-24 bg-gray-300 flex items-center justify-center rounded-full">
+                            <span className="text-gray-600">No Image</span>
+                        </div>
+                    )}
+                    <h2 className="text-5xl font-extrabold text-gray-800 mt-4">{userInfo.username}'s Profile</h2>
+                    <h2 className="text-5xl font-extrabold text-gray-800 mt-4">{userInfo.email}</h2>
                 </div>
     
                 <h3 className="text-3xl font-semibold mt-8 text-gray-800 mb-6">Your Posts:</h3>
@@ -96,6 +108,5 @@ function UserProfile() {
             </div>
         </>
     );
-    
 }    
 export default UserProfile;
