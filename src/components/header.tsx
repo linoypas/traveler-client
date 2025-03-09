@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/header.css';
-import { FaHome ,FaSearch, FaPlus } from 'react-icons/fa'; 
-import { RiAddCircleLine } from 'react-icons/ri'; 
+import { FaHome, FaSearch, FaUser } from 'react-icons/fa'; 
+import { RiAddCircleLine } from 'react-icons/ri';
 
 const Header: React.FC = () => {
     const navigate = useNavigate();
@@ -39,20 +39,19 @@ const Header: React.FC = () => {
                 <Link to="/posts" className="home-link">
                     <FaHome className="home-icon" />
                 </Link>
-                <h2>Traveler</h2>
                 <FaSearch className="search-icon" onClick={() => navigate('/ai-posts')} />
             </div>
 
             <div className="right">
                 <nav className="nav-container">
                     <div className="user-info">
-                        <span>👤</span>
+                        <FaUser className="profile-icon" onClick={() => navigate('/user')} />
                         <span>{userId || 'User'}</span>
                         {isLoggedIn ? (
                             <>
-                            <button onClick={handleLogout}>Logout</button>
-                            <RiAddCircleLine className="plus-icon" onClick={() => navigate('/create-post')} /> 
-                            </>
+                                <button onClick={handleLogout}>Logout</button>
+                                <RiAddCircleLine className="plus-icon" onClick={() => navigate('/create-post')} />
+                                </>
                         ) : (
                             <Link to="/login">
                                 <button>Login</button>
