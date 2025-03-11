@@ -65,6 +65,8 @@ const Comments = () => {
                 setComment(""); 
                 const responseData: { id: string } = await response.json();
                 setComments(prevComments => [...prevComments, { _id: responseData.id, owner: userId , content: comment, postId: postId }]);
+                window.location.reload();
+
             } else {
                 console.error("Failed to post comment");
             }
