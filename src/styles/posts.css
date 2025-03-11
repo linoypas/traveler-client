@@ -1,18 +1,3 @@
-.post-image {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1 / 1;
-  object-fit: cover; 
-  object-position: center;
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
-  transition: transform 0.3s ease;
-}
-
-.post-image:hover {
-  transform: scale(1.05);
-}
-
 .post-card {
   background-color: #ffffff;
   border-radius: 1rem;
@@ -27,16 +12,38 @@
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
 }
 
+.post-image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.post-image:hover {
+  transform: scale(1.05);
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 16px;
 }
 
-.p-4 {
-  padding: 16px;
+.container {
+  position: relative;
+  min-height: 100vh; /* Ensures it takes the full screen height */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 100px; /* Adjust as needed */
 }
 
-.pt-10 {
-  padding-top: 90rem; 
+.content {
+  width: 100%;
+  padding-top: 20px; /* Use padding instead of margin */
 }

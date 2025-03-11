@@ -48,31 +48,32 @@ const Posts = () => {
   }
 
   return (
-    <div className="p-4 pt-10"> {/* Reduced padding-top */}
-      {posts.length === 0 ? (
-        <p className="text-center text-gray-500">No posts available</p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {posts.map((post) => (
-            <Link to={`/posts/${post._id}`} key={post._id} className="post-card-link">
-              <div className="post-card">
-                {post.image ? (
-                  <img src={`http://localhost:3001${post.image}`} alt={post.title} className="post-image" />
-                ) : (
-                  <p className="p-4 text-gray-700">{post.content}</p>
-                )}
-                <div className="p-4">
-                  <h2 className="text-lg font-semibold">
-                    {post.title}
-                  </h2>
-                  <p className="text-sm text-gray-500">By: {post.owner || 'Unknown'}</p>
+    <div className="container">
+      <div className="content">
+        {posts.length === 0 ? (
+          <p className="text-center text-gray-500">No posts available</p>
+        ) : (
+          <div className="grid">
+            {posts.map((post) => (
+              <Link to={`/posts/${post._id}`} key={post._id} className="post-card-link">
+                <div className="post-card">
+                  {post.image ? (
+                    <img src={`http://localhost:3001${post.image}`} alt={post.title} className="post-image" />
+                  ) : (
+                    <p className="p-4 text-gray-700">{post.content}</p>
+                  )}
+                  <div className="p-4">
+                    <h2 className="text-lg font-semibold">{post.title}</h2>
+                    <p className="text-sm text-gray-500">By: {post.owner || 'Unknown'}</p>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
-  );
+  );  
 };
+
 export default Posts;
