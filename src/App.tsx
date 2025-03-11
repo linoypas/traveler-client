@@ -24,8 +24,6 @@ function App() {
         <Route path="/posts/:postId" element={<Post />} />
         <Route path="/posts/edit/:postId" element={<EditPost />} />
         <Route path="/ai-posts" element={<AiPosts />} />
-
-
         <Route path="/user/" element={<Profile/>} />
 
       </Routes>
