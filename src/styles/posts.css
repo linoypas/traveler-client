@@ -1,10 +1,39 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  min-height: 100vh; /* Ensure the container fills the entire screen */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 20; /* Remove fixed padding-top */
+}
+
+.content {
+  width: 100%;
+  max-width: 1200px; /* Prevents extreme stretching */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+  width: 100%;
+  margin-top: 16px;
+}
+
 .post-card {
   background-color: #ffffff;
   border-radius: 1rem;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
   overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .post-card:hover {
@@ -15,35 +44,8 @@
 .post-image {
   width: 100%;
   height: auto;
-  aspect-ratio: 1 / 1;
   object-fit: cover;
   object-position: center;
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
-  transition: transform 0.3s ease;
-}
-
-.post-image:hover {
-  transform: scale(1.05);
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 16px;
-}
-
-.container {
-  position: relative;
-  min-height: 100vh; /* Ensures it takes the full screen height */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding-top: 100px; /* Adjust as needed */
-}
-
-.content {
-  width: 100%;
-  padding-top: 20px; /* Use padding instead of margin */
 }

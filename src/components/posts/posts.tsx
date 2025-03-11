@@ -49,29 +49,27 @@ const Posts = () => {
 
   return (
     <div className="container">
-      <div className="content">
-        {posts.length === 0 ? (
-          <p className="text-center text-gray-500">No posts available</p>
-        ) : (
-          <div className="grid">
-            {posts.map((post) => (
-              <Link to={`/posts/${post._id}`} key={post._id} className="post-card-link">
-                <div className="post-card">
-                  {post.image ? (
-                    <img src={`http://localhost:3001${post.image}`} alt={post.title} className="post-image" />
-                  ) : (
-                    <p className="p-4 text-gray-700">{post.content}</p>
-                  )}
-                  <div className="p-4">
-                    <h2 className="text-lg font-semibold">{post.title}</h2>
-                    <p className="text-sm text-gray-500">By: {post.owner || 'Unknown'}</p>
-                  </div>
+      {posts.length === 0 ? (
+        <p className="text-center text-gray-500">No posts available</p>
+      ) : (
+        <div className="grid">
+          {posts.map((post) => (
+            <Link to={`/posts/${post._id}`} key={post._id} className="post-card-link">
+              <div className="post-card">
+                {post.image ? (
+                  <img src={`http://localhost:3001${post.image}`} alt={post.title} className="post-image" />
+                ) : (
+                  <p className="p-4 text-gray-700">{post.content}</p>
+                )}
+                <div className="p-4">
+                  <h2 className="text-lg font-semibold">{post.title}</h2>
+                  <p className="text-sm text-gray-500">By: {post.owner || 'Unknown'}</p>
                 </div>
-              </Link>
-            ))}
-          </div>
-        )}
-      </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );  
 };
