@@ -6,11 +6,11 @@
 }
 
 .profile-picture {
-  width: 100px;   /* Adjust size (try 40px or 30px for even smaller) */
+  width: 100px;  
   height: 100px;  
-  border-radius: 50%; /* Makes it circular */
-  object-fit: cover; /* Ensures it doesn't stretch */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  border-radius: 50%; 
+  object-fit: cover; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
 }
 .post-image {
     width: 100%;

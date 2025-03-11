@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { FaTrash } from 'react-icons/fa';  // Import trash icon
+import { FaTrash } from 'react-icons/fa';  
 
 
 interface IComment {

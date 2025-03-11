@@ -1,4 +1,3 @@
-/* Global Styles or Parent container */
 html, body {
   height: 100%;
   margin: 0;
@@ -9,26 +8,26 @@ html, body {
 
 .login-container {
   width: 100%;
-  max-width: 500px;  /* Increased max-width to make the container wider */
-  padding: 30px;     /* Optional: Increase padding for better spacing */
+  max-width: 500px; 
+  padding: 30px;    
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  align-items: center;  /* Center content horizontally */
-  text-align: center;   /* Center text inside the container */
+  align-items: center;  
+  text-align: center;   
 }
 
 .logo-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 5px;  /* Space between logo and form */
+  margin-bottom: 5px; 
 }
 
 .logo {
-  width: 100px;          /* Adjust the size of the logo */
+  width: 100px;         
   height: auto;
 }
 
