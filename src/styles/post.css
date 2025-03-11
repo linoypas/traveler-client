@@ -1,0 +1,27 @@
+.post-image-container {
+    width: 200px; /* Adjust the width to your preference */
+    height: 200px; /* Adjust the height to your preference */
+    margin: 20px auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px; /* Adds rounded edges */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease; /* Smooth transition for hover effect */
+  }
+  
+  .post-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image maintains aspect ratio while covering the container */
+    border-radius: 12px; /* Same rounded corners */
+    transition: transform 0.3s ease; /* Smooth zoom effect on hover */
+  }
+  
+  .post-image-container:hover img {
+    transform: scale(1.05); /* Slight zoom effect on hover */
+  }
+  
+  .post-image-container:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+  }
+  

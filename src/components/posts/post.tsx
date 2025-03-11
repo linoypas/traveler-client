@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams} from 'react-router-dom';
 import { FaHeart, FaRegHeart , FaTrash, FaEdit} from 'react-icons/fa'; 
+import '../../styles/post.css'
 
 interface IPost {
   id: string;
@@ -119,56 +120,52 @@ const Post = () => {
     navigate(`/posts/edit/${postId}`);
   };
 
-
- // const isImage = (content: string) => {
- //   return /\.(jpeg|jpg|png|gif|webp)$/i.test(content);
-//};
-
   if (!post || loading) {
     return <p>Loading...</p>;
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <div className="flex flex-col items-center bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition-all duration-300">
-        <h3 className="text-4xl font-semibold p-4">{post.title}</h3>
-        <p className="text-lg text-gray-600">By: {post.owner || 'Unknown'}</p>
+    <div className="max-w-4xl mx-auto p-8 bg-gradient-to-br from-blue-100 to-indigo-200 rounded-3xl shadow-2xl transform transition-all duration-500 hover:scale-105">
+      <div className="bg-white rounded-3xl shadow-lg overflow-hidden border-2 border-gray-300 hover:shadow-xl transition-all duration-500">
+        <h3 className="text-5xl font-extrabold text-center p-8 text-gray-800 tracking-wide">{post.title}</h3>
+        <p className="text-lg text-center text-gray-600 mb-6">By: {post.owner || 'Unknown'}</p>
+
         {post.owner === userId && (
-            <div className="flex space-x-4">
-              <button onClick={handleEdit} className="text-blue-600 hover:underline">
-                <FaEdit className="text-2xl" />
-              </button>
-              <button onClick={handleDelete} className="text-red-600 hover:underline">
-                <FaTrash className="text-2xl" />
-              </button>
-            </div>
-          )}
+          <div className="flex justify-center space-x-6 mb-6">
+            <button onClick={handleEdit} className="text-blue-600 hover:text-blue-800 transition duration-200 transform hover:scale-110">
+              <FaEdit className="text-3xl" />
+            </button>
+            <button onClick={handleDelete} className="text-red-600 hover:text-red-800 transition duration-200 transform hover:scale-110">
+              <FaTrash className="text-3xl" />
+            </button>
+          </div>
+        )}
 
         {post.image ? (
-        <div className="w-full h-48 relative mt-4">
+          <div className="w-full h-80 relative mt-6">
             <img
               src={`http://localhost:3001${post.image}`}
               alt="Post content"
-              className="w-full h-full object-contain rounded-2xl"
+              className="w-full h-full object-cover rounded-xl shadow-2xl hover:opacity-90 transition-opacity duration-500"
             />
           </div>
         ) : (
-          <p className="p-4 text-gray-700">{post.content}</p>
+          <p className="p-6 text-lg text-gray-700">{post.content}</p>
         )}
 
-        <div className="p-4 flex justify-between w-full items-center space-x-4">
+        <div className="p-6 flex justify-between items-center space-x-6">
           <button
             onClick={handleLike}
-            className="flex items-center text-red-600 hover:underline"
+            className="flex items-center text-red-600 hover:text-red-800 transition duration-300 transform hover:scale-110"
           >
             {isLiked ? (
-              <FaHeart className="text-2xl" /> 
+              <FaHeart className="text-3xl" />
             ) : (
-              <FaRegHeart className="text-2xl" /> 
+              <FaRegHeart className="text-3xl" />
             )}
-            <span className="ml-2">  {likes} Likes</span>
+            <span className="ml-3 font-semibold text-xl">{likes} Likes</span>
           </button>
-          <a href={`/comments/${postId}`} className="text-blue-600 hover:underline">
+          <a href={`/comments/${postId}`} className="text-blue-600 hover:text-blue-800 text-lg font-semibold transition duration-300 transform hover:scale-110">
             {comments.length} Comments
           </a>
         </div>
@@ -176,5 +173,4 @@ const Post = () => {
     </div>
   );
 };
-
 export default Post;
