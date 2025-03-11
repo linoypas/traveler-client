@@ -138,7 +138,7 @@ const Post = () => {
           By: {post.owner && typeof post.owner !== 'string' ? post.owner.username : 'Unknown'}
         </p>
 
-        {post.owner === userId && (
+        {post.owner && typeof post.owner !== 'string' && post.owner._id === userId && (
           <div className="flex justify-center space-x-6 mb-6">
             <button onClick={handleEdit} className="text-blue-600 hover:text-blue-800 transition duration-200 transform hover:scale-110">
               <FaEdit className="text-3xl" />
@@ -150,11 +150,10 @@ const Post = () => {
         )}
 
         {post.image ? (
-          <div className="w-full h-80 relative mt-6">
+          <div className="post-image-container">
             <img
               src={`http://localhost:3001${post.image}`}
               alt="Post content"
-              className="w-full h-full object-cover rounded-xl shadow-2xl hover:opacity-90 transition-opacity duration-500"
             />
           </div>
         ) : (
