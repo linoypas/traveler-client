@@ -8,6 +8,7 @@ interface IPost {
   owner: string;
   content: string;
   likes: string[];
+  image?: string;
 }
 
 const Post = () => {
@@ -119,9 +120,9 @@ const Post = () => {
   };
 
 
-  const isImage = (content: string) => {
-    return /\.(jpeg|jpg|png|gif|webp)$/i.test(content);
-  };
+ // const isImage = (content: string) => {
+ //   return /\.(jpeg|jpg|png|gif|webp)$/i.test(content);
+//};
 
   if (!post || loading) {
     return <p>Loading...</p>;
@@ -143,10 +144,10 @@ const Post = () => {
             </div>
           )}
 
-        {isImage(post.content) ? (
+        {post.image ? (
         <div className="w-full h-48 relative mt-4">
             <img
-              src={post.content}
+              src={`http://localhost:3001${post.image}`}
               alt="Post content"
               className="w-full h-full object-contain rounded-2xl"
             />
