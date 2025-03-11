@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams} from 'react-router-dom';
-import { FaHeart, FaRegHeart , FaTrash, FaEdit} from 'react-icons/fa'; 
-import '../../styles/post.css'
+import { useNavigate, useParams } from 'react-router-dom';
+import { FaHeart, FaRegHeart, FaTrash, FaEdit } from 'react-icons/fa';
+import '../../styles/post.css';
+
+interface IUser {
+  _id: string;
+  username: string;
+}
 
 interface IPost {
   id: string;
   title: string;
-  owner: string;
+  owner: IUser | string;  
   content: string;
   likes: string[];
   image?: string;
@@ -109,13 +114,14 @@ const Post = () => {
         if (!response.ok) {
           console.error('Failed to delete post');
         } else {
-          navigate('/posts'); 
+          navigate('/posts');
         }
       } catch (error) {
         console.error('Error deleting post', error);
       }
     }
   };
+
   const handleEdit = async () => {
     navigate(`/posts/edit/${postId}`);
   };
@@ -128,7 +134,9 @@ const Post = () => {
     <div className="max-w-4xl mx-auto p-8 bg-gradient-to-br from-blue-100 to-indigo-200 rounded-3xl shadow-2xl transform transition-all duration-500 hover:scale-105">
       <div className="bg-white rounded-3xl shadow-lg overflow-hidden border-2 border-gray-300 hover:shadow-xl transition-all duration-500">
         <h3 className="text-5xl font-extrabold text-center p-8 text-gray-800 tracking-wide">{post.title}</h3>
-        <p className="text-lg text-center text-gray-600 mb-6">By: {post.owner || 'Unknown'}</p>
+        <p className="text-lg text-center text-gray-600 mb-6">
+          By: {post.owner && typeof post.owner !== 'string' ? post.owner.username : 'Unknown'}
+        </p>
 
         {post.owner === userId && (
           <div className="flex justify-center space-x-6 mb-6">
@@ -173,4 +181,5 @@ const Post = () => {
     </div>
   );
 };
+
 export default Post;

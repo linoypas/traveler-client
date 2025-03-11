@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { FaTrash } from 'react-icons/fa';  
 
-
+interface IUser {
+    _id: string;
+    username: string;
+  }
 interface IComment {
     _id: string;
-    owner: string;
+    owner: IUser | string;
     content: string;
     postId: string;
   }
@@ -34,7 +37,6 @@ const Comments = () => {
             }
             const commentsData= await commentResponse.json();
             setComments(commentsData);
-
           } catch (error) {
             console.error("Error fetching comments ", error);
           } finally {
@@ -110,8 +112,8 @@ const Comments = () => {
             {comments.length > 0 ? (
                     comments.map((comment, idx) => (
                         <div key={idx}>
-                            <strong>{comment.owner}</strong>: {comment.content}
-                            {comment.owner === userId && (
+                            <strong>{typeof comment.owner === 'object' ? comment.owner.username : comment.owner}</strong>: {comment.content}
+                            {typeof comment.owner === 'object' ? comment.owner.username : comment.owner === userId && (
                                 <button
                                     onClick={() => handleDeleteComment(comment._id)}
                                     style={{
