@@ -4,6 +4,7 @@ import '../styles/header.css';
 import { FaHome, FaSearch, FaUser } from 'react-icons/fa'; 
 import { RiAddCircleLine } from 'react-icons/ri';
 
+
 const Header: React.FC = () => {
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('accessToken'));

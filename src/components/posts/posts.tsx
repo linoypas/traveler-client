@@ -2,10 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../../styles/posts.css'
 
+interface IUser {
+  _id: string;
+  username: string;
+}
+
 interface IPost {
   _id: string;
   title: string;
-  owner: string;
+  owner: IUser | string;  
   content: string;
   likes: string[];
   image?: string;
@@ -62,8 +67,12 @@ const Posts = () => {
                   <p className="p-4 text-gray-700">{post.content}</p>
                 )}
                 <div className="p-4">
-                  <h2 className="text-lg font-semibold">{post.title}</h2>
-                  <p className="text-sm text-gray-500">By: {post.owner || 'Unknown'}</p>
+                  <h2 className="text-lg font-semibold">
+                    {post.title}
+                  </h2>
+                  <p className="text-sm text-gray-500">By: {typeof post.owner === 'object' && post.owner !== null
+                                ? post.owner.username
+                                : 'Unknown'}</p>
                 </div>
               </div>
             </Link>
