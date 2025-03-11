@@ -26,6 +26,7 @@ function UserProfile() {
                     throw new Error('Failed to fetch user data');
                 }
                 const userData = await userResponse.json();
+                console.log(userData);
                 setUserInfo(userData);
 
                 const postsResponse = await fetch(`http://localhost:3001/posts?owner=${userId}`);
@@ -44,6 +45,8 @@ function UserProfile() {
         fetchUserData();
     }, [userId, navigate]); 
 
+    console.log("UserInfo state:", userInfo);
+
     if (loading) {
         return <p>Loading...</p>;
     }
@@ -55,24 +58,44 @@ function UserProfile() {
         navigate(`/posts/${postId}`);
     };
     return (
-<div className="profile-container">
-            <h2>{userInfo.name}'s Profile</h2>
-            <p>Email: {userInfo.email}</p>
-            <h3>Posts:</h3>
-            <div className="posts-grid">
-                {userPosts.length > 0 ? (
-                    userPosts.map((post) => (
-                        <div key={post._id} className="post-card" onClick={() => handlePostClick(post._id)}>
-                            {post.photo && <img src={post.photo} alt="Post" className="post-image" />}
-                            <div className="post-title">{post.content}</div>
-                        </div>
-                    ))
+        <>
+            <div className="p-6 bg-gradient-to-r from-blue-50 via-indigo-100 to-purple-200 min-h-screen pt-20">
+                <div className="text-center my-12">
+                    <h2 className="text-5xl font-extrabold text-gray-800">{userInfo.email}</h2>
+                </div>
+    
+                <h3 className="text-3xl font-semibold mt-8 text-gray-800 mb-6">Your Posts:</h3>
+                {userPosts.length === 0 ? (
+                    <p className="text-center text-gray-500">No posts available</p>
                 ) : (
-                    <p>No posts available</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-6">
+                        {userPosts.map((post) => (
+                            <div
+                                key={post._id}
+                                className="post-card"
+                                onClick={() => handlePostClick(post._id)}
+                            >
+                                {post.image ? (
+                                    <img
+                                        src={`http://localhost:3001${post.image}`}
+                                        alt={post.title}
+                                        className="post-image"
+                                    />
+                                ) : (
+                                    <div className="p-6 text-gray-700">
+                                        <p>{post.content}</p>
+                                    </div>
+                                )}
+                                <div className="p-6">
+                                    <h2 className="text-2xl font-semibold text-gray-800">{post.title}</h2>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 )}
             </div>
-        </div>
+        </>
     );
-}
-
+    
+}    
 export default UserProfile;
