@@ -48,11 +48,11 @@ const Posts = () => {
   }
 
   return (
-    <div className="p-4 pt-10"> {/* Reduced padding-top */}
+    <div className="container">
       {posts.length === 0 ? (
         <p className="text-center text-gray-500">No posts available</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid">
           {posts.map((post) => (
             <Link to={`/posts/${post._id}`} key={post._id} className="post-card-link">
               <div className="post-card">
@@ -62,9 +62,7 @@ const Posts = () => {
                   <p className="p-4 text-gray-700">{post.content}</p>
                 )}
                 <div className="p-4">
-                  <h2 className="text-lg font-semibold">
-                    {post.title}
-                  </h2>
+                  <h2 className="text-lg font-semibold">{post.title}</h2>
                   <p className="text-sm text-gray-500">By: {post.owner || 'Unknown'}</p>
                 </div>
               </div>
@@ -73,6 +71,7 @@ const Posts = () => {
         </div>
       )}
     </div>
-  );
+  );  
 };
+
 export default Posts;

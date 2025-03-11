@@ -1,7 +1,7 @@
 .container {
   padding-left: 20px;
   padding-right: 20px;
-  padding-top: 320px;
+  padding-top: 420px;
   padding-bottom: 20px;
 }
 
@@ -50,6 +50,6 @@
   }
   
   .pt-20 {
-    padding-top: 60rem;
+    padding-top: 100rem;
   }
   

@@ -142,11 +142,10 @@ const Post = () => {
         )}
 
         {post.image ? (
-          <div className="w-full h-80 relative mt-6">
+          <div className="post-image-container">
             <img
               src={`http://localhost:3001${post.image}`}
               alt="Post content"
-              className="w-full h-full object-cover rounded-xl shadow-2xl hover:opacity-90 transition-opacity duration-500"
             />
           </div>
         ) : (
