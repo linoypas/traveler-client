@@ -126,6 +126,30 @@ function UserProfile() {
             </div>
 
             <h3 className="text-3xl font-semibold mt-8 text-gray-800 mb-6">Your Posts:</h3>
+{/* Edit Modal */}
+{isEditing && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                        <h2 className="text-xl font-bold mb-4">Edit Profile</h2>
+
+                        <label className="block mb-2">New Profile Picture</label>
+                        <input type="file" accept="image/*" onChange={handleImageUpload} className="mb-4" />
+
+                        <label className="block mb-2">New Username</label>
+                        <input
+                            type="text"
+                            value={newUsername}
+                            onChange={(e) => setNewUsername(e.target.value)}
+                            className="w-full p-2 border rounded mb-4"
+                        />
+
+                        <div className="flex justify-end">
+                            <button className="bg-gray-400 text-white px-4 py-2 rounded mr-2" onClick={() => setIsEditing(false)}>Cancel</button>
+                            <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={handleSaveChanges}>Save</button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {userPosts.length === 0 ? (
                 <p className="text-center text-gray-500">No posts available</p>
@@ -156,30 +180,7 @@ function UserProfile() {
                 </div>
             )}
 
-            {/* Edit Modal */}
-            {isEditing && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-                    <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-                        <h2 className="text-xl font-bold mb-4">Edit Profile</h2>
 
-                        <label className="block mb-2">New Profile Picture</label>
-                        <input type="file" accept="image/*" onChange={handleImageUpload} className="mb-4" />
-
-                        <label className="block mb-2">New Username</label>
-                        <input
-                            type="text"
-                            value={newUsername}
-                            onChange={(e) => setNewUsername(e.target.value)}
-                            className="w-full p-2 border rounded mb-4"
-                        />
-
-                        <div className="flex justify-end">
-                            <button className="bg-gray-400 text-white px-4 py-2 rounded mr-2" onClick={() => setIsEditing(false)}>Cancel</button>
-                            <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={handleSaveChanges}>Save</button>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }

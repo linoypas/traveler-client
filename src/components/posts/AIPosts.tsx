@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styles from '../../styles/AiPosts.module.css';
 
 const AiPosts = () => {
   const [loading, setLoading] = useState(false);
@@ -16,8 +17,9 @@ const AiPosts = () => {
     try {
       const response = await fetch(`http://localhost:3000/posts/getAi?prompt=${encodeURIComponent(query)}`);
       const data = await response.json();
-      if (!response.ok || !data.urls) {
-        throw new Error('Failed to fetch post');
+      console.log("Fetched images:", data.urls);
+      if (!response.ok || !data.urls || !Array.isArray(data.urls) || data.urls.length === 0) {
+        throw new Error('Failed to fetch posts or no images returned');
       }
       setResults(data.urls);
     } catch (err) {
@@ -28,30 +30,27 @@ const AiPosts = () => {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-100 py-6">
-      <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-2xl">
-        <h2 className="text-3xl font-bold text-gray-800 text-center mb-4">AI Posts</h2>
-        <form onSubmit={handleSearchSubmit} className="flex items-center bg-gray-200 rounded-full p-2 mb-4">
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <h2 className={styles.title}>AI Posts</h2>
+        <form onSubmit={handleSearchSubmit} className={styles.form}>
           <input
             type="text"
             value={query}
             onChange={handleSearchChange}
             placeholder="What's on your mind?"
-            className="flex-1 bg-transparent px-4 py-2 outline-none text-gray-700"
+            className={styles.input}
           />
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-600 disabled:bg-gray-400 transition"
-          >
+          <button type="submit" disabled={loading} className={styles.button}>
             {loading ? 'Loading...' : 'Post'}
           </button>
         </form>
-        <div className="mt-6 space-y-4">
+
+        <div className={styles.imageContainer}>
           {results.length > 0 ? (
             results.map((result, index) => (
-              <div key={index} className="bg-white border rounded-lg shadow-md p-4">
-                <img src={result} alt={`Post ${index}`} className="w-full rounded-lg" />
+              <div key={index} className={styles.imageWrapper}>
+                <img src={result} alt={`Post ${index}`} className={styles.image} />
               </div>
             ))
           ) : (
