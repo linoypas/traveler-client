@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../../styles/Login.css'; 
-import logo from '../../assets/logo.png'; 
+import { GoogleLogin } from '@react-oauth/google';
 
 function Login() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
+  // Handle Standard Email Login
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:3001/auth/login', {
+      const response = await fetch('http://localhost:3000/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -20,56 +23,90 @@ function Login() {
         body: JSON.stringify({ email, password }),
       });
 
+      setLoading(false);
+
       if (!response.ok) {
         const errorMessage = await response.text();
-        alert(`Error from server:\n ${errorMessage}`);
+        setErrorMessage(`Error: ${errorMessage}`);
       } else {
-        console.log('Logging in with:', email, password);
         const data = await response.json();
-        if(data){
+        if (data) {
           localStorage.setItem('accessToken', data.accessToken);
-          localStorage.setItem('id',data._id);
-          localStorage.setItem('refreshToken',data.refreshToken);
+          localStorage.setItem('id', data._id);
+          localStorage.setItem('refreshToken', data.refreshToken);
         }
         navigate('/posts');
       }
     } catch (error: any) {
-      console.error('Error during login:', error.message);
-      alert(`Error during register: ${error.message}`);
+      setLoading(false);
+      console.error('Login error:', error.message);
+      setErrorMessage(`Error: ${error.message}`);
+    }
+  };
+
+  const handleGoogleLoginSuccess = async (response: any) => {
+    try {
+      const token = response.credential; // Google JWT token
+      const googleResponse = await fetch('http://localhost:3000/auth/google', {
+        method: 'POST', // Still using GET as the server expects it
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token }),
+      });
+  
+      if (googleResponse.ok) {
+        const data = await googleResponse.json();
+        localStorage.setItem('accessToken', data.accessToken);
+        localStorage.setItem('id', data._id);
+        localStorage.setItem('refreshToken', data.refreshToken);
+        navigate('/posts');
+      } else {
+        setErrorMessage('Google login failed.');
+      }
+    } catch (error) {
+      console.error('Google login error:', error);
+      setErrorMessage('An error occurred during Google login.');
     }
   };
 
   return (
-    <div className="login-container">
-          <div className="logo-container">
-          <img src={logo} alt="Logo" className="logo" />
-          </div>
-          
-          <h2>Login</h2>
-          
-          <form onSubmit={handleSubmit} className="login-form">
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="input-field"
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="input-field"
-            />
-            <button type="submit" className="submit-button">Login</button>
-          </form>
-          
-          <p className="register-link">
-            Don't have an account?<button onClick={() => navigate('/register')} className="register-button">Register here</button>
-          </p>
-        </div>
-      );
-    };
+    <div>
+      <h2>Login</h2>
+
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+
+      <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button type="submit" disabled={loading}>
+          {loading ? 'Logging in...' : 'Login'}
+        </button>
+      </form>
+
+      <div style={{ marginTop: '20px' }}>
+        <h3>Or login with Google</h3>
+        <GoogleLogin
+          onSuccess={handleGoogleLoginSuccess}
+          onError={() => setErrorMessage('Google login failed')}
+        />
+      </div>
+
+      <p>
+        Don't have an account? <a href="/register">Register here</a>
+      </p>
+    </div>
+  );
+}
 
 export default Login;

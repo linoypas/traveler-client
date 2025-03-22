@@ -20,7 +20,7 @@ const EditPost = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/posts/${postId}`, {
+        const response = await fetch(`http://localhost:3000/posts/${postId}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${accessToken}`,
@@ -57,7 +57,7 @@ const EditPost = () => {
     };
 
     try {
-      const response = await fetch(`http://localhost:3001/posts/${postId}`, {
+      const response = await fetch(`http://localhost:3000/posts/${postId}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${accessToken}`,
