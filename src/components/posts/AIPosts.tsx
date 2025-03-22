@@ -14,7 +14,7 @@ const AiPosts = () => {
     if (!query.trim()) return;
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:3001/posts/getAi?prompt=${encodeURIComponent(query)}`);
+      const response = await fetch(`http://localhost:3000/posts/getAi?prompt=${encodeURIComponent(query)}`);
       const data = await response.json();
       if (!response.ok || !data.urls) {
         throw new Error('Failed to fetch post');

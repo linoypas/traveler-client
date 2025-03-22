@@ -32,7 +32,7 @@ const Post = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const postReponse = await fetch(`http://localhost:3001/posts/${postId}`, {
+        const postReponse = await fetch(`http://localhost:3000/posts/${postId}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${accessToken}`,
@@ -49,7 +49,7 @@ const Post = () => {
         if (postData.likes.includes(userId)) {
           setIsLiked(true);
         }
-        const commentResponse = await fetch(`http://localhost:3001/comments?postId=${postId}`, {
+        const commentResponse = await fetch(`http://localhost:3000/comments?postId=${postId}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${accessToken}`,
@@ -81,7 +81,7 @@ const Post = () => {
       updatedLikes.push(userId);
     }
     try {
-      const response = await fetch(`http://localhost:3001/posts/${postId}`, {
+      const response = await fetch(`http://localhost:3000/posts/${postId}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${accessToken}`,
@@ -103,7 +103,7 @@ const Post = () => {
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this post?')) {
       try {
-        const response = await fetch(`http://localhost:3001/posts/${postId}`, {
+        const response = await fetch(`http://localhost:3000/posts/${postId}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${accessToken}`,
@@ -152,7 +152,7 @@ const Post = () => {
         {post.image ? (
           <div className="post-image-container">
             <img
-              src={`http://localhost:3001${post.image}`}
+              src={`http://localhost:3000${post.image}`}
               alt="Post content"
             />
           </div>

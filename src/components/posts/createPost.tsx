@@ -24,7 +24,7 @@ const CreatePost = () => {
     formData.append("content", content);
     if (image) formData.append("image", image);
     try {
-      const response = await fetch("http://localhost:3001/posts",{
+      const response = await fetch("http://localhost:3000/posts",{
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${accessToken}`,
