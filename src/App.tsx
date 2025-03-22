@@ -9,7 +9,6 @@ import Profile from './components/user/profile';
 import Comments from './components/posts/comments';
 import AiPosts from './components/posts/AIPosts';
 import Posts from './components/posts/posts';
-import EditPost from './components/posts/editPost';
 
 function App() {
   return (
@@ -22,7 +21,6 @@ function App() {
         <Route path="/posts" element={<Posts />} />
         <Route path="/comments/:postId" element={<Comments />} />
         <Route path="/posts/:postId" element={<Post />} />
-        <Route path="/posts/edit/:postId" element={<EditPost />} />
         <Route path="/ai-posts" element={<AiPosts />} />
         <Route path="/user/" element={<Profile/>} />
 

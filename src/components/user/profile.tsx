@@ -150,7 +150,7 @@ function UserProfile() {
                     </div>
                 </div>
             )}
-
+            
             {userPosts.length === 0 ? (
                 <p className="text-center text-gray-500">No posts available</p>
             ) : (
@@ -180,7 +180,7 @@ function UserProfile() {
                 </div>
             )}
 
-
+            
         </div>
     );
 }
