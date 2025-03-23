@@ -14,7 +14,7 @@ const Header: React.FC = () => {
 
     const handleLogout = async () => {
         try {
-            const response = await fetch('https://localhost:443/auth/logout', {
+            const response = await fetch('https://node43.cs.colman.ac.il:443/auth/logout', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,
