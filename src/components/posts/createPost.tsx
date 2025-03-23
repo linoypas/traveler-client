@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/CreatePost.css'; 
 
@@ -9,7 +9,6 @@ const CreatePost = () => {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
   const [popupMessage, setPopupMessage] = useState<string | null>(null);
-  const [isPostCreated, setIsPostCreated] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -51,14 +50,6 @@ const CreatePost = () => {
       setTimeout(() => setPopupMessage(null), 3000);
     }
   };
-
-  useEffect(() => {
-    if (isPostCreated) {
-      setTimeout(() => {
-        navigate('/posts');
-      }, 3000); 
-    }
-  }, [isPostCreated, navigate]);
 
   return (
     <div className="create-post-container">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../../styles/posts.css'
 
@@ -19,7 +19,6 @@ interface IPost {
 const Posts = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true);
-  const userId = localStorage.getItem('id');
   const accessToken = localStorage.getItem('accessToken');
 
   useEffect(() => {
